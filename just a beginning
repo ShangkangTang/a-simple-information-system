@@ -1,0 +1,74 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+#define MAX 100
+typedef int Status;
+
+/* 学生信息的定义*/
+typedef struct
+{
+	long ID;
+	char name[8];
+	int grade;
+}student;
+typedef student elemtype;
+typedef struct
+{
+	elemtype *elem;
+	int length;
+}Sqlist;
+Status Initlist(Sqlist *L)
+{
+	L->elem = (elemtype *)malloc(sizeof(elemtype)*MAX);
+	if (!L->elem)
+		exit(0);
+	L->length = 0;
+	return 1;
+}
+void Input(elemtype *L)
+{
+	printf("please input the ID of the student:");
+	scanf_s("%d", &L->ID);
+	printf("please input the name of the student:");
+	scanf("%s", &L->name);
+	printf("please input the grade of the student:");
+	scanf_s("%d", &L->grade);
+ }
+elemtype Getelem(Sqlist *L, int i)
+{
+	return L->elem[i];
+}
+int main()
+{
+	Sqlist rl;
+	elemtype b;
+	int a, i, c;
+	if (Initlist(&rl))
+	{
+		printf("成功建立顺序表\n");
+	}
+	else
+	{
+		printf("defeat");
+	}
+	printf("请输入人数：");
+	scanf_s("%d", &a);
+	for (i = 0; i < a; i++)
+	{
+		printf("请输入第%d个学生：\n", i+1);
+		Input(&rl.elem[i]);
+		rl.length++;
+	}
+	printf("第c个学生，c：\n");
+	scanf_s("%d", &c);
+	/*if (c< 0 || c>rl.length || rl.length = 0)
+	{
+		return 0;
+	}*/
+	b = Getelem(&rl, c-1);
+	printf("%6d,%6s%6d", b.ID, b.name, b.grade);
+
+	return 0;
+
+
+}
