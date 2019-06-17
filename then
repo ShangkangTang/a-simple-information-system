@@ -1,0 +1,113 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<malloc.h>
+#define TRUE 1
+#define ERROR 0
+#define MAXSIZE 100
+
+typedef int Status;
+typedef struct
+{
+	long ID;
+	char name[10];
+	int grade;
+}STUDENT;
+typedef STUDENT elemtype;
+typedef struct
+{
+	elemtype *elem;
+	int length;
+}SqList;
+Status InitList(SqList *L)
+{
+	L->elem = (elemtype *)malloc(sizeof(elemtype)*MAXSIZE);
+	if (L->elem)
+	{
+		L->length = 0;
+		return TRUE;
+	}
+	
+	return ERROR;
+
+}
+void Input(elemtype *L)
+{
+	printf("请输入学生ID：");
+	scanf("%d", &(L->ID));
+	printf("请输入学生姓名：");
+	scanf("%s", L->name);
+	printf("请输入学生成绩：");
+	scanf("%d", &(L->grade));
+}
+void Output(elemtype *L)
+{
+	printf("%5d%9s%5d\n", L->ID, L->name, L->grade);
+}
+Status Delete(SqList *L,int a)
+{
+	int i;
+	if(a<1||a>L->length||L->length==0)
+	{
+		return ERROR;
+	
+	}
+	for (i = a-1; i < L->length; i++)
+	{
+		L->elem[i] = L->elem[i + 1];
+
+	}
+	--L->length;
+	return TRUE;
+}
+int main()
+{
+	SqList rl;
+	
+	int a, i,n,m;
+	printf("**********************\n");
+	
+	printf("1.建立顺序表\n");
+	printf("2.加入学生信息\n");
+	printf("3.显示学生信息\n");
+	printf("4.删除指定学生信息\n");
+	printf("*********************\n");
+	
+	while (1)
+	{
+		printf("请输入你要选择的程序序号：\n ");
+		scanf("%d", &a);
+		switch (a)
+		{
+		case 1:     if (InitList(&rl))
+			printf("成功创建顺序表\n");
+					else
+			printf("失败\n");
+			break;
+		case 2:
+			printf("学生人数为：\n");
+			scanf("%d", &n);
+			for (i = 0; i < n; i++)
+			{
+				Input(&(rl.elem[i]));
+				rl.length++;
+			}
+			break;
+		case 3:
+			for (i = 0; i < rl.length; i++)
+			{
+				Output(&rl.elem[i]);
+			}
+			break;
+		case 4:
+			printf("请输入要删除的学生序号：");
+			scanf("%d", &a);
+			if(Delete(&rl, a)==TRUE)
+				printf("成功删除第%d个学生的信息\n",a);
+			printf("此时学生总人数为：%d\n", rl.length);
+		}
+		
+		
+	}
+	
+}
